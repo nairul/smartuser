@@ -3,5 +3,10 @@
 #
 # Examples:
 #
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+App.destroy_all
+
+gmail = App.create({
+  name: "Gmail",
+  username: "gmailusername",
+  password: "gmailpassword"
+})

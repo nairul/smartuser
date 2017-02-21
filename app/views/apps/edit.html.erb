@@ -1,0 +1,23 @@
+<h1>Edit App</h1>
+
+<form action="/apps/<%= @app.id %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="put">
+
+  <label for="app[name]">Name:</label>
+  <input name="app[name]" value="<%= @app.name %>">
+
+  <label for="app[username]">Username:</label>
+  <input name="app[username]" value="<%= @app.username %>">
+
+  <label for="app[password]">Password:</label>
+  <input type="password" name="app[password]" value="<%= @app.password %>">
+
+  <input type="submit" value="Edit">
+</form>
+
+<form action="/apps/<%= @app.id %>" method="post">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="delete">
+  <input class="button-delete" type="submit" value="Delete!">
+</form>

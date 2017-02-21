@@ -1,0 +1,17 @@
+<h1>Show App <a href="/apps/<%= @app.id %>/edit">Edit</a></h1>
+<p>App: <%= @app.name %></p>
+<p>Username: <%= @app.username %></p>
+<p>Password: <%= @app.password %></p>
+
+<% if @app.password.length <= 4 %>
+	<p style="color:red"><%= "Consider making your #{@app.name} password longer" %></p>
+<% end %>
+<% if @app.password =~ /\d/ %>
+	<% else %>
+		<p style="color:red"><%= "Consider including a number in your #{@app.name} password" %></p>
+<% end %> 
+<% if @app.password == "test" %>
+	<p>placeholder</p>
+<% end %>
+
+

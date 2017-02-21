@@ -1,0 +1,14 @@
+<h1>New App</h1>
+
+<%= form_for @app do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+
+  <%= f.label :username %>
+  <%= f.text_field :username %>
+
+  <%= f.label :password %>
+  <%= f.text_field :password %>
+
+  <%= f.submit "Create" %>
+<% end %>
