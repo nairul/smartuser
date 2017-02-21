@@ -7,8 +7,12 @@ class AppsController < ApplicationController
 		@app = App.new
 	end
 
+	def about
+	end
+
 	def show
 		@app = App.find(params[:id])
+		@apps = App.all
 	end
 
 	def edit

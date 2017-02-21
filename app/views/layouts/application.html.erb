@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Smartuser</title>
+    <title>SmartUser</title>
+     <link rel="icon" type="image/png" href="/assets/images/Login-toolbar-32.png" />
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,6 +10,12 @@
   </head>
 
   <body>
+  	<h1>SmartUser</h1>
+  	<nav>
+    <a href="/apps">All Apps</a>
+    <a href="/apps/new">New App</a>
+    <a href="/apps/about">About</a>
+  	</nav>
     <%= yield %>
   </body>
 </html>

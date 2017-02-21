@@ -7,6 +7,36 @@ App.destroy_all
 
 gmail = App.create({
   name: "Gmail",
-  username: "gmailusername",
-  password: "gmailpassword"
+  username: "username",
+  password: "password"
+})
+
+amazon = App.create({
+  name: "Amazon",
+  username: "username",
+  password: "password"
+})
+
+bank_of_america = App.create({
+  name: "Bank of America",
+  username: "username",
+  password: "password"
+})
+
+twitter = App.create({
+  name: "Twitter",
+  username: "username",
+  password: "password"
+})
+
+facebook = App.create({
+  name: "Facebook",
+  username: "username",
+  password: "password"
+})
+
+netflix = App.create({
+  name: "Netflix",
+  username: "username",
+  password: "password"
 })

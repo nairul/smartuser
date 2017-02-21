@@ -10,8 +10,10 @@
 	<% else %>
 		<p style="color:red"><%= "Consider including a number in your #{@app.name} password" %></p>
 <% end %> 
-<% if @app.password == "test" %>
-	<p>placeholder</p>
+<% @apps.each do |app| %>
+	<% if app.password == @app.password && @app != app %>
+		<p style="color:red">Consider choosing a unique password. This one matches your password used for <%= app.name %>.</p>
+<% end %> 
 <% end %>
 
 
