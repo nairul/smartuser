@@ -1,0 +1,40 @@
+<h2><%= @account.username %> <%= link_to "(edit)", edit_account_path(@account) %></h2>
+<h3>App: <%= link_to @account.app.name, @account.app %></h3>
+
+<p>Username: <%= @account.username %></p>
+<button onclick="showHide()">Show Password</button>
+<div id="password" style="display: none">
+<p>Password: <%= @account.password %></p>
+<% if @account.password.downcase == "password" %>
+	<p style="color:red"><%= "Never use '#{@account.password}' as a password!" %></p>
+<% end %>
+<% if @account.password.length <= 4 %>
+	<p style="color:red"><%= "Consider making your #{@account.app.name} password longer" %></p>
+<% end %>
+<% if @account.password =~ /\d/ %>
+	<% else %>
+		<p style="color:red"><%= "Consider including a number in your #{@account.app.name} password" %></p>
+<% end %>
+<% similar = []%> 
+<% @accounts.each do |account| %>
+	<% if account.password == @account.password && @account != account %>
+		<% similar.push(@account.app.name) %>
+	<% end %> 
+<% end %>
+	<% if similar.length > 0 %>
+		<p style="color:red">Consider choosing a unique password. This one matches a password used for: <%= similar.join(", ") %></p>
+	<% end %>
+<% strength = PasswordStrength.test(@account.username, @account.password) %>
+<p>Strength: <%= strength.status %></p>
+</div>
+
+<script>
+function showHide() {
+	var x = document.getElementById('password');
+	if (x.style.display === 'none') {
+		x.style.display = 'block';
+	} else {
+		x.style.display = 'none';
+	}
+}
+</script>

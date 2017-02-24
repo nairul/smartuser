@@ -10,15 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220233557) do
+ActiveRecord::Schema.define(version: 20170222204649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "apps", force: :cascade do |t|
-    t.string "name"
-    t.string "username"
-    t.string "password"
+  create_table "accounts", force: :cascade do |t|
+    t.string  "username"
+    t.string  "password"
+    t.string  "email"
+    t.integer "app_id"
+    t.index ["app_id"], name: "index_accounts_on_app_id", using: :btree
   end
 
+  create_table "apps", force: :cascade do |t|
+    t.string "name"
+    t.string "app_url"
+  end
+
+  add_foreign_key "accounts", "apps"
 end

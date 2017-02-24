@@ -3,40 +3,28 @@
 #
 # Examples:
 #
+require_relative './account_data.rb'
+require_relative './app_data.rb'
+
+Account.destroy_all
 App.destroy_all
 
-gmail = App.create({
-  name: "Gmail",
-  username: "username",
-  password: "password"
-})
+account_data = get_account_data()
+app_data = get_app_data()
 
-amazon = App.create({
-  name: "Amazon",
-  username: "username",
-  password: "password"
-})
+account_data.each_pair do |app_name, accounts|
+  info = app_data[app_name]
+  current_app = App.create!({
+    name:         info[:name],
+    app_url:      info[:app_url],
+  })
 
-bank_of_america = App.create({
-  name: "Bank of America",
-  username: "username",
-  password: "password"
-})
-
-twitter = App.create({
-  name: "Twitter",
-  username: "username",
-  password: "password"
-})
-
-facebook = App.create({
-  name: "Facebook",
-  username: "username",
-  password: "password"
-})
-
-netflix = App.create({
-  name: "Netflix",
-  username: "username",
-  password: "password"
-})
+  accounts.each do |account|
+    Account.create!({
+      username:        account[:username],
+      password:        account[:password],
+      email:           account[:email],
+      app:             current_app
+    })
+  end
+end

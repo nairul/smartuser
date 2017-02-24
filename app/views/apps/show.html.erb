@@ -1,19 +1,9 @@
-<h1>Show App <a href="/apps/<%= @app.id %>/edit">Edit</a></h1>
-<p>App: <%= @app.name %></p>
-<p>Username: <%= @app.username %></p>
-<p>Password: <%= @app.password %></p>
+<h2><%= @app.name %> <%= link_to "(edit)", edit_app_path(@app) %></h2>
 
-<% if @app.password.length <= 4 %>
-	<p style="color:red"><%= "Consider making your #{@app.name} password longer" %></p>
-<% end %>
-<% if @app.password =~ /\d/ %>
-	<% else %>
-		<p style="color:red"><%= "Consider including a number in your #{@app.name} password" %></p>
-<% end %> 
-<% @apps.each do |app| %>
-	<% if app.password == @app.password && @app != app %>
-		<p style="color:red">Consider choosing a unique password. This one matches your password used for <%= app.name %>.</p>
-<% end %> 
-<% end %>
+<h3>Accounts <%= link_to "(+)", new_app_account_path(@app) %></h3>
 
-
+<ul>
+  <% @app.accounts.each do |account| %>
+    <li><%= link_to "#{account.username}", account %></li>
+  <% end %>
+</ul>

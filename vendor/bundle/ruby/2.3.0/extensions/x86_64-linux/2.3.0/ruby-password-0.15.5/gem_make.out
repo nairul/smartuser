@@ -1,0 +1,29 @@
+current directory: /home/adam/wdi/projects/smartuser/vendor/bundle/ruby/2.3.0/gems/ruby-password-0.15.5
+/usr/bin/ruby2.3 -r ./siteconf20170222-20746-9d2pf8.rb extconf.rb
+checking for cracklib dictionary... /var/cache/cracklib/cracklib_dict.pwd
+checking for crack.h... no
+*** extconf.rb failed ***
+Could not create Makefile due to some reason, probably lack of necessary
+libraries and/or headers.  Check the mkmf.log file for more details.  You may
+need configuration options.
+
+Provided configuration options:
+	--with-opt-dir
+	--without-opt-dir
+	--with-opt-include
+	--without-opt-include=${opt-dir}/include
+	--with-opt-lib
+	--without-opt-lib=${opt-dir}/lib
+	--with-make-prog
+	--without-make-prog
+	--srcdir=.
+	--curdir
+	--ruby=/usr/bin/$(RUBY_BASE_NAME)2.3
+	--with-crack-dict
+	--without-crack-dict
+
+To see why this extension failed to compile, please check the mkmf.log which can be found here:
+
+  /home/adam/wdi/projects/smartuser/vendor/bundle/ruby/2.3.0/extensions/x86_64-linux/2.3.0/ruby-password-0.15.5/mkmf.log
+
+extconf failed, exit code 1

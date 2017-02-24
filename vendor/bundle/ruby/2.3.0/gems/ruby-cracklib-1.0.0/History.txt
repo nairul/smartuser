@@ -1,0 +1,12 @@
+=== 1.0.0 / 2014-09-25
+
+* 1 major enhancement
+
+  * Updated dependency on FFI to allow use with modern versionsy
+
+=== 0.1.0 / 2010-09-10
+
+* 1 major enhancement
+
+  * Birthday!
+

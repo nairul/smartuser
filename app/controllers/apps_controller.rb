@@ -1,43 +1,50 @@
 class AppsController < ApplicationController
-	def index
-		@apps = App.all
-	end
+  # index
+  def index
+    @apps = App.all
+  end
 
-	def new
-		@app = App.new
-	end
+  # new
+  def new
+    @app = App.new
+  end
 
-	def about
-	end
+  # create
+  def create
+    @app = App.create!(app_params)
 
-	def show
-		@app = App.find(params[:id])
-		@apps = App.all
-	end
+    redirect_to @app
+  end
 
-	def edit
-		@app = App.find(params[:id])
-	end
+  #show
+  def show
+    @app = App.find(params[:id])
+  end
 
-	def update
-		@app = App.find(params[:id])
-		@app.update(app_params)
-		redirect_to "/apps/#{@app.id}"
-	end
+  # edit
+  def edit
+    @app = App.find(params[:id])
+  end
 
-	def create
-		@app = App.create!(app_params)
-		redirect_to "/apps/#{@app.id}"
-	end
 
-	def destroy
-		@app = App.find(params[:id])
-		@app.destroy
-		redirect_to "/apps"
-	end	
+  # update
+  def update
+    @app = App.find(params[:id])
+    @app.update(app_params)
 
-	private
-	def app_params
-		params.require(:app).permit(:name, :username, :password)
-	end
+    redirect_to @app
+  end
+
+  # destroy
+  def destroy
+    @app = App.find(params[:id])
+    @app.destroy
+
+    redirect_to apps_path
+  end
+
+  private
+  def app_params
+    params.require(:app).permit(:name, :app_url)
+  end
 end

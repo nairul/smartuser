@@ -1,0 +1,9 @@
+.autotest
+COPYING.txt
+Gemfile
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+lib/cracklib.rb
+test/test_cracklib.rb
