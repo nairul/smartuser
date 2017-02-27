@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
-  root to: 'landings#home'
-  get    '/about'		   => 'landings#about' 
 
- resources :accounts, except: [:new, :create]
+get    '/about'           => 'apps#about'
+get    '/news'           => 'apps#news'
+get    '/contact'           => 'apps#contact'
+
+
+  root to: "apps#index"
   resources :apps do
-    resources :accounts, only: [:new, :create]
-	end
+    resources :accounts
+  end
+  devise_for :users
 end

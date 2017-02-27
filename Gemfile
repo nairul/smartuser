@@ -39,6 +39,7 @@ gem 'devise'
 # gem 'simple-password-gen', '~> 0.1.5'
 # gem 'ruby-password', '~> 0.15.5'
 gem 'password_strength', '~> 1.0', '>= 1.0.2'
+gem 'httparty', '~> 0.13.7'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

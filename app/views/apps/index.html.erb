@@ -1,10 +1,15 @@
-<h1>Your Apps <a href="/apps/new">(+)</a></h1>
-<ul>
-  <% @apps.each do |app| %>
-    <li>
-      <a href="/apps/<%= app.id %>">
-        <%= app.name %>
-      </a>
-    </li>
-  <% end %>
-</ul>
+<h1 class="w3-text-teal">Your Apps <% if current_user %> 
+<a href="/apps/new" class="plus">(+)</a>
+<% end %>
+</h1>
+<% if current_user %>
+	<ul>
+	  <% @apps.each do |app| %>
+	    <li>
+	      <a href="/apps/<%= app.id %>"><%= app.name %></a> - <a href=http://<%= app.app_url %>><%= app.app_url %></a>
+	    </li>
+	  <% end %>
+	</ul>
+<% else %>
+	<p><a href=<%= new_user_session_path %> class="w3-hover-black">Sign in</a> or <a href=<%= new_user_registration_path %> class="w3-hover-black">Register</a> to become a SmartUser!</p>
+<% end %>

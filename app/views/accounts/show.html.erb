@@ -1,35 +1,87 @@
-<h2><%= @account.username %> <%= link_to "(edit)", edit_account_path(@account) %></h2>
-<h3>App: <%= link_to @account.app.name, @account.app %></h3>
+<% warnings = 0 %>
+<h1 class="w3-text-teal"><%= link_to @account.app.name, @account.app %> Account <%= link_to "(edit)", edit_app_account_path(@app, @account) %>:</h1>
+<a class="w3-text-teal" href="http://<%= @app.app_url %>"><%= @app.app_url %></a>
 
 <p>Username: <%= @account.username %></p>
-<button onclick="showHide()">Show Password</button>
+<% if @account.email.length > 0 %> 
+<p>Email: <%= @account.email %></p>
+<% end %>
+<!-- haveibeenpwned API -->
+
+<button onclick="showHideBreach()">Show Breaches</button>
+<div id="breach" style="display: none">
+<% site = 'https://haveibeenpwned.com/api/v2/breachedaccount/' %>
+<% username = "#{@account.username}" %>
+<% breaches = HTTParty.get(site+username) %>
+<% breaches.each do |breach| %>
+	<p><%= breach["Title"] %></p>
+	<p><%= breach["Domain"] %></p>
+	<p><%= breach["BreachDate"] %></p>
+	<p><%= breach["Description"] %></p>
+<% end %> 
+</div>
+<button onclick="showHidePass()">Show Password</button>
+
+
+<!-- Password/Strength Info-->
 <div id="password" style="display: none">
-<p>Password: <%= @account.password %></p>
-<% if @account.password.downcase == "password" %>
-	<p style="color:red"><%= "Never use '#{@account.password}' as a password!" %></p>
-<% end %>
-<% if @account.password.length <= 4 %>
-	<p style="color:red"><%= "Consider making your #{@account.app.name} password longer" %></p>
-<% end %>
-<% if @account.password =~ /\d/ %>
-	<% else %>
-		<p style="color:red"><%= "Consider including a number in your #{@account.app.name} password" %></p>
-<% end %>
-<% similar = []%> 
-<% @accounts.each do |account| %>
-	<% if account.password == @account.password && @account != account %>
-		<% similar.push(@account.app.name) %>
-	<% end %> 
-<% end %>
-	<% if similar.length > 0 %>
-		<p style="color:red">Consider choosing a unique password. This one matches a password used for: <%= similar.join(", ") %></p>
+	<p>Password: <%= @account.password %></p>
+	<!-- Warnings -->
+	<ul>
+	<!-- Warning: password contains "password" -->
+	<% if @account.password.downcase.include? "password" %>
+		<% warnings += 1 %>
+		<li style="color:red">Dont include "password" in your password</li>
 	<% end %>
-<% strength = PasswordStrength.test(@account.username, @account.password) %>
-<p>Strength: <%= strength.status %></p>
+	<!-- Warning: password is too short -->
+	<% if @account.password.length <= 5 %>
+		<% warnings += 1 %>
+		<li style="color:red"><%= "Consider making your #{@account.app.name} password longer" %></li>
+	<% end %>
+	<!-- Warning: password does not contain a number -->
+	<% if @account.password =~ /\d/ %>
+	<% else %>
+		<% warnings += 1 %>
+		<li style="color:red"><%= "Consider including a number in your #{@account.app.name} password" %></li>
+	<% end %>
+	<!-- Warning: password does not contain a string -->
+	<% if @account.password =~ /a/ %>
+	<% else %>
+		<% warnings += 1 %>
+		<li style="color:red"><%= "Consider including a letter in your #{@account.app.name} password" %></li>
+	<% end %>
+	<!-- Warning: password does not contain different case letters -->
+	<% if (@account.password =~ /[A-Z]/ && @account.password =~ /[a-z]/) %>
+	<% else %>
+		<% warnings += 1 %>
+	<li style="color:red"><%= "Consider including different case letters in your #{@account.app.name} password" %></li><% end %>
+	<!-- Warning: password does not contain a symbol -->
+	<% symbols = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")"] %>
+	<% if @account.password.include? (symbols[0] or symbols[1] or symbols[2] or symbols[3] or symbols[4] or symbols[5] or symbols[6] or symbols[7] or symbols[8] or symbols[9]) %>
+	<% else %>
+		<% warnings += 1 %>
+		<li style="color:red"><%= "Consider including a symbol (!, @, #, etc.) in your #{@account.app.name} password" %></li>
+	<% end %> 
+	<!-- Warning: password is used for other accounts -->
+	<% similar = []%> 
+	<% @accounts.each do |account| %>
+		<% if account.password == @account.password && @account != account %>
+			<% similar.push(account.app.name) %>
+		<% end %> 
+	<% end %>
+	
+	<% if similar.length > 0 %>
+		<% warnings += 1 %>
+		<li style="color:red">Consider choosing a unique password. This one matches a password used for: <%= similar.join(", ") %></li>
+	<% end %>
+	<!-- password_strength gem Display-->
+	<% strength = PasswordStrength.test(@account.username, @account.password) %>
+	<li>password_strength gem judges your password to be: <%= strength.status.to_s %></li>
+	</ul>
 </div>
 
 <script>
-function showHide() {
+function showHidePass() {
 	var x = document.getElementById('password');
 	if (x.style.display === 'none') {
 		x.style.display = 'block';
@@ -37,4 +89,14 @@ function showHide() {
 		x.style.display = 'none';
 	}
 }
-</script>
+</script> 
+<script>
+function showHideBreach() {
+	var x = document.getElementById('breach');
+	if (x.style.display === 'none') {
+		x.style.display = 'block';
+	} else {
+		x.style.display = 'none';
+	}
+}
+</script> 

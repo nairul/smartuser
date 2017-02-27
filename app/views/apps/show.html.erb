@@ -1,9 +1,10 @@
-<h2><%= @app.name %> <%= link_to "(edit)", edit_app_path(@app) %></h2>
+<h1 class="w3-text-teal"><%= @app.name %> <%= link_to "(edit)", edit_app_path(@app) %></h1>
+<a class="w3-text-teal" href="http://<%= @app.app_url %>"><%= @app.app_url %></a></p>
 
-<h3>Accounts <%= link_to "(+)", new_app_account_path(@app) %></h3>
+<h3>Accounts <a href=<%= new_app_account_path(@app) %> class="plus">(+)</a></h3>
 
 <ul>
   <% @app.accounts.each do |account| %>
-    <li><%= link_to "#{account.username}", account %></li>
+    <li><%= link_to "#{account.username}", app_account_path(@app, account) %></li>
   <% end %>
 </ul>

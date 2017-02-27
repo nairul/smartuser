@@ -1,48 +1,51 @@
 class AppsController < ApplicationController
-  # index
+  def about
+  end
+  def news
+  end
+  def contact
+  end
   def index
-    @apps = App.all
+    if current_user
+      @apps = current_user.apps.all
+      @accounts = current_user.accounts.all
+    else
+      @apps = nil
+    end
   end
-
-  # new
-  def new
-    @app = App.new
-  end
-
-  # create
-  def create
-    @app = App.create!(app_params)
-
-    redirect_to @app
-  end
-
-  #show
   def show
-    @app = App.find(params[:id])
+  @app = App.find(params[:id])
+    if current_user.id == @app.user_id
+    else
+      redirect_to root_path
+    end 
   end
-
-  # edit
   def edit
     @app = App.find(params[:id])
+    if current_user.id == @app.user_id
+    else
+      redirect_to root_path
+    end    
   end
-
-
-  # update
+  def new
+    redirect_to root_path unless current_user
+    @app = App.new
+  end
+  def create
+    # @app = App.create!(app_params.merge(user: current_user))
+    @app = current_user.apps.create!(app_params)
+    redirect_to app_path(@app)
+  end
   def update
-    @app = App.find(params[:id])
-    @app.update(app_params)
-
-    redirect_to @app
+    @app = current_user.apps.find(params[:id])
+    @app.update(app_params.merge(user:current_user))
+    redirect_to app_path(@app)
   end
-
-  # destroy
   def destroy
-    @app = App.find(params[:id])
+    @app = current_user.apps.find(params[:id])
     @app.destroy
-
     redirect_to apps_path
   end
-
   private
   def app_params
     params.require(:app).permit(:name, :app_url)

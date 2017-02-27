@@ -1,7 +1,0 @@
-<h2>All Accounts</h2>
-
-<ul>
-  <% @accounts.each do |account| %>
-    <li><%= link_to "#{account.username} - #{account.app.name}", account %></li>
-  <% end %>
-</ul>

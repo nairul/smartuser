@@ -1,11 +1,20 @@
-<h2>New Account for <%= link_to @app.name, @app %></h2>
+<h1 class="w3-text-teal">New <%= link_to @app.name, @app %> Account</h1>
 
 <%= form_for [@app, @account] do |f| %>
   <%= f.label :username %>
+  <br />
   <%= f.text_field :username %>
-
+  <br />
+  <br />
+  <%= f.label :email %>
+  <br />
+  <%= f.text_field :email %>
+  <br />
+  <br />
   <%= f.label :password %>
+  <br />
   <%= f.text_field :password %>
-  
+  <br />
+  <br />
   <%= f.submit %>
 <% end %>
