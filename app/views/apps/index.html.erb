@@ -1,15 +1,22 @@
+
 <h1 class="w3-text-teal">Your Apps <% if current_user %> 
 <a href="/apps/new" class="plus">(+)</a>
 <% end %>
 </h1>
 <% if current_user %>
-	<ul>
+<div style="width: 763px; height:526px; display:flex; align-content:flex-start; flex-wrap: wrap;">
 	  <% @apps.each do |app| %>
-	    <li>
-	      <a href="/apps/<%= app.id %>"><%= app.name %></a> - <a href=http://<%= app.app_url %>><%= app.app_url %></a>
-	    </li>
+	      <div class="app" style="width: 20%; height: 20%; word-wrap: break-word;">
+	      <p>
+	      <% if @popular.key?(app.name.downcase) %>
+	      <a href=http://<%= app.app_url %>><img src=<%= @popular[app.name.downcase] %>></a>
+	      <% end %>  
+	      <a href="/apps/<%= app.id %>" style="font-size:18px"><%= app.name %></a>
+	      </p>
+	      </div>
 	  <% end %>
-	</ul>
+</div>
 <% else %>
 	<p><a href=<%= new_user_session_path %> class="w3-hover-black">Sign in</a> or <a href=<%= new_user_registration_path %> class="w3-hover-black">Register</a> to become a SmartUser!</p>
 <% end %>
+

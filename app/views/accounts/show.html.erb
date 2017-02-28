@@ -1,37 +1,66 @@
 <% warnings = 0 %>
-<h1 class="w3-text-teal"><%= link_to @account.app.name, @account.app %> Account <%= link_to "(edit)", edit_app_account_path(@app, @account) %>:</h1>
-<a class="w3-text-teal" href="http://<%= @app.app_url %>"><%= @app.app_url %></a>
-
-<p>Username: <%= @account.username %></p>
-<% if @account.email.length > 0 %> 
-<p>Email: <%= @account.email %></p>
-<% end %>
-<!-- haveibeenpwned API -->
-
-<button onclick="showHideBreach()">Show Breaches</button>
-<div id="breach" style="display: none">
 <% site = 'https://haveibeenpwned.com/api/v2/breachedaccount/' %>
 <% username = "#{@account.username}" %>
 <% breaches = HTTParty.get(site+username) %>
-<% breaches.each do |breach| %>
-	<p><%= breach["Title"] %></p>
-	<p><%= breach["Domain"] %></p>
-	<p><%= breach["BreachDate"] %></p>
-	<p><%= breach["Description"] %></p>
-<% end %> 
+<h1 class="w3-text-teal">Account Details</h1>
+<a href=<%= edit_app_account_path(@app, @account) %>><button class="button">Edit Account</button></a>
+<p><b><span class="w3-text-teal">Username:</span> <%= @account.username %></b></p>
+<% if @account.email.length > 0 %> 
+<p><b><span class="w3-text-teal">Email:</span> <%= @account.email %></b></p>
+<% end %>
+<!-- No breaches return an array length of 14, I don't know why -->
+<% if breaches.length == 1 %>
+	<% warnings += 1 %>
+	<p style="color:red;""><b>Be careful. The username "<%= @account.username %>" has been associated with comprimised site!</b></p>
+	<button class="button" onclick="showHidePass()">Show Password</button>
+	<button class="breachbutton" onclick="showHideBreach()">Show Breaches</button>
+	<br />
+<% elsif breaches.length != 14 %>
+	<% warnings += 1 %>
+	<p style="color:red;""><b>The username "<%= @account.username %>" has been associated with <%= breaches.length %> comprimised sites!</b></p>
+	<button class="button" onclick="showHidePass()">Show Password</button>
+	<button class="breachbutton" onclick="showHideBreach()">Show Breaches</button>
+<% else %>
+	<button class="button" onclick="showHidePass()">Show Password</button>
+<% end %>
+<!-- haveibeenpwned API --> 
+<div id="breaches" style="display: none;">
+<p class="w3-text-teal">Data provided by <a href="https://haveibeenpwned.com/">haveibeenpwned.com:</a></p>
+<div style="display:flex; align-content:flex-start; flex-wrap: wrap;">
+<% if breaches.length != 14 %>
+	<% breaches.each do |breach| %>
+		<div class="breach" style="width:45%; height:45%; margin: 5px">
+			<ul style="list-style: none; padding-left:0;">
+			<li><span style="color:red">Site: </span><a href="http://<%= breach["Domain"] %>"><%= breach["Title"] %></a></li>
+			<li><span style="color:red">Date Breached: </span> <%= breach["BreachDate"] %></li>
+			<li><span style="color:red">Description: </span> <%= breach["Description"].html_safe %></li>
+			</ul>
+		</div>
+	<% end %>
+<% end %>
 </div>
-<button onclick="showHidePass()">Show Password</button>
-
-
+</div>
+<br />
 <!-- Password/Strength Info-->
 <div id="password" style="display: none">
-	<p>Password: <%= @account.password %></p>
+	<p><b><span class="w3-text-teal">Password:</span> <%= @account.password %></b></p>
 	<!-- Warnings -->
-	<ul>
+	<p style="color: red"><b>Safety Warnings:</b></p>
+	<ul style="list-style: none; padding-left:0">
 	<!-- Warning: password contains "password" -->
 	<% if @account.password.downcase.include? "password" %>
 		<% warnings += 1 %>
-		<li style="color:red">Dont include "password" in your password</li>
+		<li style="color:red">Consider not including "password" in your password</li>
+	<% end %>
+	<!-- Warning: password contains username -->
+	<% if @account.password.downcase.include? @account.username.downcase %>
+		<% warnings += 1 %>
+		<li style="color:red">Consider not including your username in your password</li>
+	<% end %>
+	<!-- Warning: password contains app name -->
+	<% if @account.password.downcase.include? @account.app.name.downcase %>
+		<% warnings += 1 %>
+		<li style="color:red">Dont include "<%= @account.app.name %>" in your password</li>
 	<% end %>
 	<!-- Warning: password is too short -->
 	<% if @account.password.length <= 5 %>
@@ -57,7 +86,7 @@
 	<li style="color:red"><%= "Consider including different case letters in your #{@account.app.name} password" %></li><% end %>
 	<!-- Warning: password does not contain a symbol -->
 	<% symbols = ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")"] %>
-	<% if @account.password.include? (symbols[0] or symbols[1] or symbols[2] or symbols[3] or symbols[4] or symbols[5] or symbols[6] or symbols[7] or symbols[8] or symbols[9]) %>
+	<% if (@account.password.include? symbols[0]) || (@account.password.include? symbols[1]) || (@account.password.include? symbols[2]) || (@account.password.include? symbols[3]) || (@account.password.include? symbols[4]) || (@account.password.include? symbols[5]) || (@account.password.include? symbols[6]) || (@account.password.include? symbols[7]) || (@account.password.include? symbols[8]) || (@account.password.include? symbols[9]) %>
 	<% else %>
 		<% warnings += 1 %>
 		<li style="color:red"><%= "Consider including a symbol (!, @, #, etc.) in your #{@account.app.name} password" %></li>
@@ -72,12 +101,12 @@
 	
 	<% if similar.length > 0 %>
 		<% warnings += 1 %>
-		<li style="color:red">Consider choosing a unique password. This one matches a password used for: <%= similar.join(", ") %></li>
+		<li style="color:red">Consider choosing a unique password. This one matches passwords used for: <%= similar.uniq.join(", ") %></li>
 	<% end %>
-	<!-- password_strength gem Display-->
-	<% strength = PasswordStrength.test(@account.username, @account.password) %>
-	<li>password_strength gem judges your password to be: <%= strength.status.to_s %></li>
 	</ul>
+	<% if warnings == 0 %>
+	<p style="color:green">None</p>
+	<% end %>
 </div>
 
 <script>
@@ -88,15 +117,27 @@ function showHidePass() {
 	} else {
 		x.style.display = 'none';
 	}
+	var y = document.getElementById('breaches');
+	if (y.style.display === 'block') {
+		y.style.display = 'none';
+	} else {
+		y.style.display = 'none';
+	}
 }
 </script> 
 <script>
 function showHideBreach() {
-	var x = document.getElementById('breach');
+	var x = document.getElementById('breaches');
 	if (x.style.display === 'none') {
 		x.style.display = 'block';
 	} else {
 		x.style.display = 'none';
+	}
+	var y = document.getElementById('password');
+	if (y.style.display === 'block') {
+		y.style.display = 'none';
+	} else {
+		y.style.display = 'none';
 	}
 }
 </script> 

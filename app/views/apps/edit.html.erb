@@ -1,4 +1,4 @@
-<h1 class="w3-text-teal">Edit App</h1>
+<h1 class="w3-text-teal">Edit <%= @app.name %></h1>
 
 <%= form_for @app do |f| %>
   <%= f.label :name %>
@@ -9,5 +9,7 @@
 
   <%= f.submit %>
 <% end %>
-
-<%= link_to "Delete", @app, method: :delete, class: "delete" %>
+<%= link_to "Delete", @app, method: :delete %>
+<br />
+<%= link_to( @app, method: :delete) do %>
+<% end %>

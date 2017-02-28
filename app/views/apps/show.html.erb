@@ -1,9 +1,14 @@
-<h1 class="w3-text-teal"><%= @app.name %> <%= link_to "(edit)", edit_app_path(@app) %></h1>
-<a class="w3-text-teal" href="http://<%= @app.app_url %>"><%= @app.app_url %></a></p>
+<h1 class="w3-text-teal" style="display:inline;">
+<% if @popular.key?(@app.name.downcase) %>
+	<a href=http://<%= @app.app_url %>><img src=<%= @popular[@app.name.downcase] %>></a>
+<% end %>
+<%= @app.name %>
+</h1>
+<a href=<%= edit_app_path(@app) %>><button class="button">Edit App</button></a>
 
-<h3>Accounts <a href=<%= new_app_account_path(@app) %> class="plus">(+)</a></h3>
+<h3><span class="w3-text-teal">Accounts</span> <a href=<%= new_app_account_path(@app) %> class="plus">(+)</a></h3>
 
-<ul>
+<ul style="list-style: none; padding-left:0;">
   <% @app.accounts.each do |account| %>
     <li><%= link_to "#{account.username}", app_account_path(@app, account) %></li>
   <% end %>

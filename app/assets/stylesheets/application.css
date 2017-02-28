@@ -87,4 +87,38 @@
 
 .plus {
    text-decoration: none;
+   color: green;
 }
+.button {
+    background-color: #009688;
+    border: none;
+    color: white;
+    padding: 10px 27px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.breachbutton {
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 10px 27px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer; 
+}
+/*.delete {
+  display: none;
+}
+.app:hover {
+  background-color: yellow;
+}
+.app:hover~.delete {
+  display: block;
+}*/

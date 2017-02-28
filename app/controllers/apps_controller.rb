@@ -1,4 +1,5 @@
 class AppsController < ApplicationController
+  @@popular = { "google" => "http://icons.iconarchive.com/icons/graphics-vibe/classic-3d-social/32/google-icon.png", "amazon" => "http://icons.iconarchive.com/icons/limav/flat-gradient-social/32/Amazon-icon.png", "gmail" => "http://icons.iconarchive.com/icons/marcus-roberto/google-play/32/Gmail-icon.png", "twitter" => "http://icons.iconarchive.com/icons/limav/flat-gradient-social/32/Twitter-icon.png", "facebook" => "http://icons.iconarchive.com/icons/danleech/simple/32/facebook-icon.png", "netflix" => "http://icons.iconarchive.com/icons/dakirby309/windows-8-metro/32/Web-Netflix-Metro-icon.png" }
   def about
   end
   def news
@@ -7,6 +8,7 @@ class AppsController < ApplicationController
   end
   def index
     if current_user
+      @popular = @@popular
       @apps = current_user.apps.all
       @accounts = current_user.accounts.all
     else
@@ -15,6 +17,7 @@ class AppsController < ApplicationController
   end
   def show
   @app = App.find(params[:id])
+  @popular = @@popular
     if current_user.id == @app.user_id
     else
       redirect_to root_path

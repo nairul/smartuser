@@ -4,14 +4,11 @@ MONDAY
 # 2) Add email field to account model
 # 3) Learn bcrypt and get these passwords encrypted. Or are they already encrypted?
 # 4) Add haveibeenpwned API, alert when any account email addresses or usernames have been pwned 
-5) What happens when API get request returns a clean account?
-httparty
+# 5) What happens when API get request returns a clean account?
+# 5.1) httparty
 
 TUESDAY
 
-5) Add button to generate random OR memorable passwords in New & Edit accounts views
-6) Add password strength score (for individual accounts AND across all accounts)
-7) Compare password strength score to other users
 
 WEDNESDAY
 

@@ -45,7 +45,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   <h4><b>Menu</b></h4>
   <% if current_user %>
     <a href=<%= apps_path %> class="w3-hover-black">My Apps (<%= current_user.email %>)</a>
-    <%= link_to "Log Out", destroy_user_session_path, method: :delete %>
+    <%= link_to "Log Out", destroy_user_session_path, method: :delete, :class=>"w3-hover-black" %>
   <% else %>
     <a href=<%= new_user_registration_path %> class="w3-hover-black">Register</a>
     <a href=<%= new_user_session_path %> class="w3-hover-black">Sign In</a>
@@ -93,7 +93,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 
   <footer>
     <div class="w3-container w3-theme-l2 w3-padding-32">
-      <h4>Created by <a href=<%= about_path %>>Adam Whitehurst</a></h4><p>&copy; 2017 SmartUser.</p>
+      <h4>Created by <a href=<%= contact_path %>>Adam Whitehurst</a></h4><p>&copy; 2017 SmartUser.</p>
     </div>
 
     <div class="w3-container w3-theme-l1">
