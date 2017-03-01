@@ -1,11 +1,11 @@
 
-<h1 class="w3-text-teal">Your Apps <% if current_user %> 
+<h1 class="w3-text-teal">Websites <% if current_user %> 
 <a href="/apps/new" class="plus">(+)</a>
 <% end %>
 </h1>
 <% if current_user %>
 	<% if @apps.length == 0 %>
-		<p>Looks like you haven't created any apps (use apps to store accounts).<br /> Click the (+) button above to get started!</p>
+		<p>To get started, <a href="/apps/new">add a website</a> for which you would like to store account credentials (i.e. Gmail).
 	<% end %>
 	<% if @apps.length > 0 %>
 		<div style="width: 763px; height:526px; display:flex; align-content:flex-start; flex-wrap: wrap;">

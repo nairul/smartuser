@@ -11,13 +11,13 @@
 <!-- No breaches return an array length of 14, I don't know why -->
 <% if breaches.length == 1 %>
 	<% warnings += 1 %>
-	<p style="color:red;""><b>An account "<%= @account.username %>" has been associated with comprimised site!</b></p>
+	<p style="color:red;""><b>Careful, an account "<%= @account.username %>" has been comprimised on a site!</b></p>
 	<button class="button" onclick="showHidePass()">Show Password</button>
 	<button class="breachbutton" onclick="showHideBreach()">Show Breaches</button>
 	<br />
 <% elsif breaches.length != 14 %>
 	<% warnings += 1 %>
-	<p style="color:red;""><b>An account "<%= @account.username %>" has been associated with <%= breaches.length %> comprimised sites!</b></p>
+	<p style="color:red;""><b>Careful, an account "<%= @account.username %>" has been comprimised on <%= breaches.length %> sites!</b></p>
 	<button class="button" onclick="showHidePass()">Show Password</button>
 	<button class="breachbutton" onclick="showHideBreach()">Show Breaches</button>
 <% else %>
@@ -33,6 +33,7 @@
 			<ul style="list-style: none; padding-left:0;">
 			<li><span style="color:red">Site: </span><a href="http://<%= breach["Domain"] %>"><%= breach["Title"] %></a></li>
 			<li><span style="color:red">Date Breached: </span> <%= breach["BreachDate"] %></li>
+			<li><span style="color:red">Description: </span> <%= breach["Description"].html_safe %></li>
 			</ul>
 		</div>
 	<% end %>

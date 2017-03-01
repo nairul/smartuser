@@ -1,7 +1,7 @@
-<h1 class="w3-text-teal">New App</h1>
+<h1 class="w3-text-teal">Website</h1>
 
 <%= form_for @app do |f| %>
-  <%= f.label :name %>
+  <%= f.label :name %>*
   <%= f.text_field :name %>
 
   <%= f.label :app_url %>
@@ -9,3 +9,5 @@
 
   <%= f.submit "Create" %>
 <% end %>
+
+<p>*required</p>
