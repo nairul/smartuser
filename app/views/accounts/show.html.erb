@@ -100,7 +100,7 @@
 	
 	<% if similar.length > 0 %>
 		<% warnings += 1 %>
-		<li style="color:red">Consider choosing a unique password. This one matches passwords used for: <%= similar.uniq.join(", ") %></li>
+		<li style="color:red">Consider choosing a unique password. This one matches a password you've used for accounts in these apps: <%= similar.uniq.join(", ") %></li>
 	<% end %>
 	</ul>
 	<% if warnings == 0 %>
