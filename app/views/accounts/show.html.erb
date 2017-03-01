@@ -1,7 +1,8 @@
 <% warnings = 0 %>
 <% site = 'https://haveibeenpwned.com/api/v2/breachedaccount/' %>
 <% username = "#{@account.username}" %>
-<% breaches = HTTParty.get(site+username) %>
+<% breaches = HTTParty.get("https://haveibeenpwned.com/api/v2/breachedaccount/test@example.com") %>
+<%= breaches %>
 <h1 class="w3-text-teal">Account Details</h1>
 <a href=<%= edit_app_account_path(@app, @account) %>><button class="button">Edit Account</button></a>
 <p><b><span class="w3-text-teal">Username:</span> <%= @account.username %></b></p>
@@ -11,13 +12,13 @@
 <!-- No breaches return an array length of 14, I don't know why -->
 <% if breaches.length == 1 %>
 	<% warnings += 1 %>
-	<p style="color:red;""><b>Be careful. The username "<%= @account.username %>" has been associated with comprimised site!</b></p>
+	<p style="color:red;""><b>An account "<%= @account.username %>" has been associated with comprimised site!</b></p>
 	<button class="button" onclick="showHidePass()">Show Password</button>
 	<button class="breachbutton" onclick="showHideBreach()">Show Breaches</button>
 	<br />
 <% elsif breaches.length != 14 %>
 	<% warnings += 1 %>
-	<p style="color:red;""><b>The username "<%= @account.username %>" has been associated with <%= breaches.length %> comprimised sites!</b></p>
+	<p style="color:red;""><b>An account "<%= @account.username %>" has been associated with <%= breaches.length %> comprimised sites!</b></p>
 	<button class="button" onclick="showHidePass()">Show Password</button>
 	<button class="breachbutton" onclick="showHideBreach()">Show Breaches</button>
 <% else %>
@@ -33,7 +34,6 @@
 			<ul style="list-style: none; padding-left:0;">
 			<li><span style="color:red">Site: </span><a href="http://<%= breach["Domain"] %>"><%= breach["Title"] %></a></li>
 			<li><span style="color:red">Date Breached: </span> <%= breach["BreachDate"] %></li>
-			<li><span style="color:red">Description: </span> <%= breach["Description"].html_safe %></li>
 			</ul>
 		</div>
 	<% end %>
