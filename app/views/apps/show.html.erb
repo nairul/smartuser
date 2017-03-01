@@ -8,6 +8,9 @@
 
 <h3><span class="w3-text-teal">Accounts</span> <a href=<%= new_app_account_path(@app) %> class="plus">(+)</a></h3>
 
+<% if @app.accounts.length == 0 %>
+<p>Looks like you haven't created any accounts yet. Click the (+) button to get started!</p>
+<% end %>
 <ul style="list-style: none; padding-left:0;">
   <% @app.accounts.each do |account| %>
     <li><%= link_to "#{account.username}", app_account_path(@app, account) %></li>
