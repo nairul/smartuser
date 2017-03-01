@@ -2,7 +2,6 @@
 <% site = 'https://haveibeenpwned.com/api/v2/breachedaccount/' %>
 <% username = "#{@account.username}" %>
 <% breaches = HTTParty.get("https://haveibeenpwned.com/api/v2/breachedaccount/test@example.com") %>
-<%= breaches %>
 <h1 class="w3-text-teal">Account Details</h1>
 <a href=<%= edit_app_account_path(@app, @account) %>><button class="button">Edit Account</button></a>
 <p><b><span class="w3-text-teal">Username:</span> <%= @account.username %></b></p>
