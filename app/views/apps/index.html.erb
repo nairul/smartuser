@@ -5,10 +5,11 @@
 </h1>
 <% if current_user %>
 	<% if @apps.length == 0 %>
-	<p>Looks like you haven't created any apps within which you can store accounts.<br /> Press the (+) button to get started!</p>
+		<p>Looks like you haven't created any apps within which you can store accounts.<br /> Press the (+) button to get started!</p>
 	<% end %>
-	<div style="width: 763px; height:526px; display:flex; align-content:flex-start; flex-wrap: wrap;">
-	  <% @apps.each do |app| %>
+	<% if @apps.length > 0 %>
+		<div style="width: 763px; height:526px; display:flex; align-content:flex-start; flex-wrap: wrap;">
+	  	<% @apps.each do |app| %>
 	      <div class="app" style="width: 20%; height: 20%; word-wrap: break-word;">
 	      <p>
 	      <% if @popular.key?(app.name.downcase) %>
@@ -17,8 +18,9 @@
 	      <a href="/apps/<%= app.id %>" style="font-size:18px"><%= app.name %></a>
 	      </p>
 	      </div>
-	  <% end %>
-	</div>
+	  	<% end %>
+		</div>
+	<% end %>
 <% else %>
 	<p><a href=<%= new_user_session_path %> class="w3-hover-black">Sign in</a> or <a href=<%= new_user_registration_path %> class="w3-hover-black">Register</a> to become a SmartUser!</p>
 <% end %>
