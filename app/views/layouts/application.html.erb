@@ -45,7 +45,7 @@ html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
   </a>
   <h4><b>Menu</b></h4>
   <% if current_user %>
-    <a href=<%= apps_path %> class="w3-hover-black">My Apps (<%= current_user.email %>)</a>
+    <a href=<%= apps_path %> class="w3-hover-black">My Websites (<%= current_user.email %>)</a>
     <%= link_to "Log Out", destroy_user_session_path, method: :delete, :class=>"w3-hover-black" %>
   <% else %>
     <a href=<%= new_user_registration_path %> class="w3-hover-black">Register</a>
